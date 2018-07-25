@@ -14,9 +14,11 @@ def move_file_to_season(file):
     if season is not None:
         show_name = file[:file.index(season)-1]
         for folder in os.listdir('/home/henry/tvshows/'):
-            if folder == show_name:
-                show_season = re.search('S\d\d', file)[0]
-                show_season = get_season(show_season)
+            # ignore capitalization
+            folder_lower = folder.lower()
+            show_name_lower = show_name.lower()
+            if folder_lower == show_name_lower:
+                show_season = get_season(season)
                 if os.path.isfile("/home/henry/tvshows/" + folder + "/" + show_season + '/') is not True:
                     try:
                         os.mkdir("/home/henry/tvshows/" + folder + "/" + show_season + '/')
@@ -25,7 +27,11 @@ def move_file_to_season(file):
                 os.rename("processed/" + file, "/home/henry/tvshows/" + folder + "/" + show_season + "/" + file)
                 print(file + " has been moved to " + "/home/henry/tvshows/" + folder + "/" + show_season + "/" + file)
                 return
-
+        # if the show isn't found, create a new directory for it along with the folder for the season
+        os.mkdir('/home/henry/tvshows/' + show_name)
+        show_season = get_season(season)
+        os.mkdir('/home/henry/tvshows/' + show_name + '/' + show_season)
+        os.rename("processed/" + file, "/home/henry/tvshows/" + show_name + "/" + show_season + "/" + file)
     else:
         os.rename('processed/' + file, '/home/henry/movies/' + file)
 
