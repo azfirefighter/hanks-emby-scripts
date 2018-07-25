@@ -13,10 +13,8 @@ def move_file_to_season(file):
     season = re.search('S\d\d', file)[0]
     if season is not None:
         show_name = file[:file.index(season)-1]
-        print(show_name)
         for folder in os.listdir('/home/henry/tvshows/'):
-            print(folder)
-            if folder in show_name:
+            if folder == show_name:
                 show_season = re.search('S\d\d', file)[0]
                 show_season = get_season(show_season)
                 if os.path.isfile("/home/henry/tvshows/" + folder + "/" + show_season + '/') is not True:
@@ -28,11 +26,12 @@ def move_file_to_season(file):
                 print(file + " has been moved to " + "/home/henry/tvshows/" + folder + "/" + show_season + "/" + file)
                 return
 
-
     else:
         os.rename('processed/' + file, '/home/henry/movies/' + file)
 
+
 def get_season(regex):
+    print(regex)
     if 'S01' in regex:
         return "Season 1"
     elif 'S02' in regex:
