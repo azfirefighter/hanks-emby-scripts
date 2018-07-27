@@ -2,10 +2,10 @@ import re
 import os
 
 
-def rename_file(startname):
-    file_name = startname.replace('.', ' ')
+def rename_file(start_name):
+    file_name = start_name.replace('.', ' ')
     file_name = file_name.replace(' mp4', '.mp4')
-    os.rename('processed/' + startname, "processed/" + file_name)
+    os.rename('processed/' + start_name, "processed/" + file_name)
     return file_name
 
 
@@ -28,9 +28,8 @@ def move_file_to_season(file):
                 print(file + " has been moved to " + "/home/henry/tvshows/" + folder + "/" + show_season + "/" + file)
                 return
         # if the show isn't found, create a new directory for it along with the folder for the season
-        os.mkdir('/home/henry/tvshows/' + show_name)
         show_season = get_season(season)
-        os.mkdir('/home/henry/tvshows/' + show_name + '/' + show_season)
+        os.makedirs('/home/henry/tvshows/' + show_name + '/' + show_season)
         os.rename("processed/" + file, "/home/henry/tvshows/" + show_name + "/" + show_season + "/" + file)
     else:
         os.rename('processed/' + file, '/home/henry/movies/' + file)
